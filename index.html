@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Naik Hub Joiner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #111827;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #1f2937;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 150, 0.3);
+    }
+
+    h1 {
+      color: #00ff99;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #ccc;
+      margin-top: 0;
+    }
+
+    .loading {
+      margin-top: 20px;
+      color: #999;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Naik Hub Joiner</h1>
+    <p>Uniendo al servidor de Roblox...</p>
+    <div class="loading">Si Roblox no se abre automáticamente, asegúrate de tener la app instalada.</div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const placeId = urlParams.get("placeId");
+    const jobId = urlParams.get("jobId");
+
+    if (placeId && jobId) {
+      const robloxLink = `roblox://placeID=${placeId}&jobID=${jobId}`;
+      setTimeout(() => {
+        window.location.href = robloxLink;
+      }, 100); // Espera mínima para activar el protocolo
+    }
+  </script>
+</body>
+</html>
