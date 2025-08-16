@@ -1,64 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Naik Hub Joiner</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Naik Joiner</title>
   <style>
-    body {
-      background-color: #111827;
-      color: white;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .container {
-      background-color: #1f2937;
-      padding: 30px 40px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 0 15px rgba(0, 255, 150, 0.3);
-    }
-
-    h1 {
-      color: #00ff99;
-      margin-bottom: 10px;
-    }
-
-    p {
-      color: #ccc;
-      margin-top: 0;
-    }
-
-    .loading {
-      margin-top: 20px;
-      color: #999;
-      font-size: 14px;
-    }
+    body{margin:0;height:100vh;display:flex;align-items:center;justify-content:center;
+         font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#111;color:#eee}
+    .box{max-width:680px;text-align:center;padding:24px}
+    a.button{display:inline-block;padding:12px 18px;border-radius:12px;background:#2e7d32;
+             color:#fff;text-decoration:none;font-weight:700}
+    .hint{opacity:.8;margin-top:12px;font-size:14px}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Naik Hub Joiner</h1>
-    <p>Uniendo al servidor de Roblox...</p>
-    <div class="loading">Si Roblox no se abre automáticamente, asegúrate de tener la app instalada.</div>
+  <div class="box">
+    <h2>Abriendo Roblox…</h2>
+    <p>Si no se abre automáticamente, toca este botón:</p>
+    <p><a id="openBtn" class="button" href="#">Abrir en Roblox</a></p>
+    <p class="hint">Necesitas tener Roblox instalado.</p>
   </div>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const placeId = urlParams.get("placeId");
-    const jobId = urlParams.get("jobId");
+    (function () {
+      const q = new URLSearchParams(location.search);
+      const placeId = q.get("placeId");
+      const gameInstanceId = q.get("gameInstanceId");
 
-    if (placeId && jobId) {
-      const robloxLink = `roblox://placeID=${placeId}&jobID=${jobId}`;
-      setTimeout(() => {
-        window.location.href = robloxLink;
-      }, 100); // Espera mínima para activar el protocolo
-    }
+      if (!placeId || !gameInstanceId) {
+        document.querySelector(".box").innerHTML =
+          "<h2>Faltan parámetros</h2><p>Usa ?placeId=...&gameInstanceId=...</p>";
+        return;
+      }
+
+      const target = `roblox://placeId=${encodeURIComponent(placeId)}&gameInstanceId=${encodeURIComponent(gameInstanceId)}`;
+
+      // setea el botón de respaldo
+      const btn = document.getElementById("openBtn");
+      btn.href = target;
+
+      // intento de apertura automática (iOS/Android/PC)
+      // replace para no dejar historial, y un segundo intento por compatibilidad
+      location.replace(target);
+      setTimeout(() => { window.location.href = target; }, 200);
+    })();
   </script>
 </body>
 </html>
